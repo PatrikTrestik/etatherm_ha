@@ -1,0 +1,1 @@
+"""Etatherm Custom Component."""

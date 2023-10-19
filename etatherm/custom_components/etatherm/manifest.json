@@ -1,0 +1,11 @@
+{
+  "codeowners": ["@PatrikTrestik"],
+  "config_flow": false,
+  "dependencies": [],
+  "documentation": "https://github.com/PatrikTrestik/etatherm_ha",
+  "domain": "etatherm",
+  "iot_class": "cloud_push",
+  "name": "Etatherm",
+  "requirements": ["etathermlib"],
+  "version": "1.0.0"
+}
