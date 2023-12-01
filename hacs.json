@@ -1,5 +1,5 @@
 {
-  "name": "Etatherm",
-  "render_readme": true,
-  "iot_class": "cloud_push"
+    "name": "Etatherm heating",
+    "render_readme": false,
+    "homeassistant": "2023.11.3"
 }

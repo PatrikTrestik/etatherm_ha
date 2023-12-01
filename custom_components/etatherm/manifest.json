@@ -1,11 +1,15 @@
 {
-  "codeowners": ["@PatrikTrestik"],
+  "codeowners": [
+    "@PatrikTrestik"
+  ],
   "config_flow": false,
   "dependencies": [],
   "documentation": "https://github.com/PatrikTrestik/etatherm_ha",
   "domain": "etatherm",
-  "iot_class": "cloud_push",
+  "iot_class": "local_polling",
   "name": "Etatherm",
-  "requirements": ["etathermlib"],
-  "version": "1.0.0"
+  "requirements": [
+    "etathermlib_PatrikTrestik==1.2.3"
+  ],
+  "version": "1.1.3"
 }
