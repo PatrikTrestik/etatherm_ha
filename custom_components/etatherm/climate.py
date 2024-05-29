@@ -18,7 +18,7 @@ from homeassistant.components.climate.const import (
     ATTR_HVAC_MODE,
     ClimateEntityFeature,
     HVACAction,
-    HVACMode
+    HVACMode,
 )
 
 from homeassistant.const import (
@@ -40,14 +40,19 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 _LOGGER = logging.getLogger(__name__)
 
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 SUPPORT_FLAGS = 0
+
+CONF_A = "adr_a"
+CONF_J = "adr_j"
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_HOST): cv.string,
         vol.Required(CONF_PORT): cv.port,
+        vol.Required(CONF_A): cv.Number,
+        vol.Required(CONF_J): cv.Number,
     }
 )
 
@@ -61,10 +66,12 @@ async def async_setup_platform(
     """Sets up a Etatherm integration"""
     host = config.get(CONF_HOST, None)
     port = config.get(CONF_PORT, 50001)
+    a = config.get(CONF_A, 0)
+    j = config.get(CONF_J, 0)
 
     thermostats = []
 
-    Etherm = etatherm.Etatherm(host, port)
+    Etherm = etatherm.Etatherm(host, port, a, j)
 
     Params = await Etherm.get_parameters()
     coordinator = EtathermCoordinator(hass, Etherm)
@@ -76,6 +83,7 @@ async def async_setup_platform(
 
     _LOGGER.info("Adding Thermostats: %s " % thermostats)
     async_add_entities(thermostats, True)
+
 
 class EtathermCoordinator(DataUpdateCoordinator):
     """Etatherm coordinator."""
@@ -130,6 +138,7 @@ class EtathermCoordinator(DataUpdateCoordinator):
 
 class EtathermThermostat(CoordinatorEntity, ClimateEntity):
     """Representation of termostat."""
+
     coordinator: EtathermCoordinator
 
     _attr_hvac_modes = [HVACMode.HEAT, HVACMode.AUTO]
@@ -139,7 +148,7 @@ class EtathermThermostat(CoordinatorEntity, ClimateEntity):
     )
     # _attr_preset_modes = [HVACPreset_AUTO, HVACPreset_KEEP]
 
-    def __init__(self, coordinator:EtathermCoordinator, idx, params, uid) -> None:
+    def __init__(self, coordinator: EtathermCoordinator, idx, params, uid) -> None:
         super().__init__(coordinator, context=idx)
         self._id = idx
         self._attr_unique_id = uid
@@ -204,5 +213,3 @@ class EtathermThermostat(CoordinatorEntity, ClimateEntity):
                 case 2 | 3:
                     self._attr_hvac_mode = HVACMode.HEAT
             self.async_write_ha_state()
-
-
