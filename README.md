@@ -9,5 +9,5 @@ Write to configuration.yaml
     - platform: etatherm
       host: IP of your Eth1eC/D or serial/TCP converter
       port: 50001 
-      addr_a: 255
-      addr_j: 1
+      adr_a: 255
+      adr_j: 1
