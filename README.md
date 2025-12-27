@@ -12,3 +12,13 @@ Write to configuration.yaml
       port: 50001 
       adr_a: 255
       adr_j: 1
+
+### Serial connection support - not tested
+    climate:
+    - platform: etatherm
+      serial: serial port of your Eth1mod (COMX on Windows /dev/ttyUSBX on Linux)
+      baudrate: 9600 
+      adr_a: 255
+      adr_j: 1
+
+Please let me know if this works. I have no testing hardware anymore.
