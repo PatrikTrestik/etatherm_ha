@@ -42,7 +42,7 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 _LOGGER = logging.getLogger(__name__)
 
 VERSION = "1.4.0"
-NEW_INTEGRATION_URL = "https://github.com/PatrikTrestik/etatherm_modbus"
+NEW_INTEGRATION_URL = "https://github.com/PatrikTrestik/homeassistant_etatherm_modbus"
 
 SUPPORT_FLAGS = 0
 
