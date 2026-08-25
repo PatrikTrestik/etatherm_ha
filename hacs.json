@@ -1,5 +1,5 @@
 {
-    "name": "Etatherm heating",
+    "name": "Etatherm heating (deprecated)",
     "render_readme": false,
     "homeassistant": "2023.11.3"
 }

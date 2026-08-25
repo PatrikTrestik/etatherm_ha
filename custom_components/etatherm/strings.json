@@ -1,0 +1,8 @@
+{
+  "issues": {
+    "deprecated_integration": {
+      "title": "Etatherm is deprecated",
+      "description": "The Etatherm integration using the legacy protocol is deprecated and this is its last release.\n\nPlease migrate to **Etatherm Modbus**:\n\n1. Install [Etatherm Modbus](https://github.com/PatrikTrestik/etatherm_modbus) from HACS.\n2. Remove `climate: - platform: etatherm` from `configuration.yaml`.\n3. Restart Home Assistant.\n4. Add **Etatherm Modbus** under Settings → Devices & services."
+    }
+  }
+}

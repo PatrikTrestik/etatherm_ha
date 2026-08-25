@@ -10,7 +10,7 @@ from datetime import timedelta
 from typing import Any, Optional
 
 import async_timeout
-from .const import HVACPreset_AUTO, HVACPreset_KEEP
+from .const import DOMAIN, HVACPreset_AUTO, HVACPreset_KEEP
 from homeassistant.components.climate import PLATFORM_SCHEMA, ClimateEntity
 import logging
 import voluptuous as vol
@@ -28,6 +28,7 @@ from homeassistant.const import (
     UnitOfTemperature,
 )
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
@@ -40,7 +41,8 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 _LOGGER = logging.getLogger(__name__)
 
-VERSION = "1.1.0"
+VERSION = "1.4.0"
+NEW_INTEGRATION_URL = "https://github.com/PatrikTrestik/etatherm_modbus"
 
 SUPPORT_FLAGS = 0
 
@@ -68,6 +70,19 @@ async def async_setup_platform(
     discovery_info: Optional[DiscoveryInfoType] = None,
 ) -> None:
     """Sets up a Etatherm integration"""
+    ir.async_create_issue(
+        hass,
+        DOMAIN,
+        "deprecated_integration",
+        is_fixable=False,
+        severity=ir.IssueSeverity.WARNING,
+        translation_key="deprecated_integration",
+        learn_more_url=NEW_INTEGRATION_URL,
+    )
+    _LOGGER.warning(
+        "The Etatherm integration is deprecated. Migrate to Etatherm Modbus: %s",
+        NEW_INTEGRATION_URL,
+    )
     host = config.get(CONF_HOST, None)
     port = config.get(CONF_PORT, 50001)
     serial = config.get(CONF_SERIAL, None)
