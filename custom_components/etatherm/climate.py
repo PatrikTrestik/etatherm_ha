@@ -48,15 +48,11 @@ SUPPORT_FLAGS = 0
 
 CONF_A = "adr_a"
 CONF_J = "adr_j"
-CONF_SERIAL = "serial"
-CONF_BAUDRATE = "baudrate"
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
-        vol.Optional(CONF_HOST): cv.string,
-        vol.Optional(CONF_PORT): cv.port,
-        vol.Optional(CONF_SERIAL): cv.string,
-        vol.Optional(CONF_BAUDRATE): cv.Number,
+        vol.Required(CONF_HOST): cv.string,
+        vol.Required(CONF_PORT): cv.port,
         vol.Required(CONF_A): cv.Number,
         vol.Required(CONF_J): cv.Number,
     }
@@ -85,16 +81,12 @@ async def async_setup_platform(
     )
     host = config.get(CONF_HOST, None)
     port = config.get(CONF_PORT, 50001)
-    serial = config.get(CONF_SERIAL, None)
-    baudrate = config.get(CONF_BAUDRATE, 9600)
     a = config.get(CONF_A, 0)
     j = config.get(CONF_J, 0)
 
     thermostats = []
 
-    Etherm = etatherm.Etatherm(host, port, a, j, serial, baudrate)
-
-    HostName= host if host is not None else serial
+    Etherm = etatherm.Etatherm(host, port, a, j)
 
     Params = await Etherm.get_parameters()
     coordinator = EtathermCoordinator(hass, Etherm)
@@ -102,7 +94,7 @@ async def async_setup_platform(
 
     for idx, name in Params.items():
         _LOGGER.info("Thermostat Name: %s " % name)
-        thermostats.append(EtathermThermostat(coordinator, idx, name, f"{HostName}-{idx}"))
+        thermostats.append(EtathermThermostat(coordinator, idx, name, f"{host}-{idx}"))
 
     _LOGGER.info("Adding Thermostats: %s " % thermostats)
     async_add_entities(thermostats, True)
